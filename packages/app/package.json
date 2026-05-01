@@ -5,8 +5,8 @@
   "description": "Demo app for LitScan",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "cp ../../skill.md public/ && vite",
+    "build": "cp ../../skill.md public/ && tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -78,7 +78,7 @@ Add LitScan before your app bundle — no import needed in your code:
 
 ## LLM Agents
 
-See [`llms.md`](./llms.md) for a skill guide covering installation, the import ordering requirement, report retrieval, and a step-by-step agent workflow for analyzing rerender behavior.
+See [`skill.md`](./skill.md) for a skill guide covering installation, the import ordering requirement, report retrieval, and a step-by-step agent workflow for analyzing rerender behavior.
 
 ## Repo Structure
 
@@ -92,5 +92,5 @@ litscan/
 │   │       ├── report.ts    # plain-text report generator
 │   │       └── index.ts     # entry point, window.litscan global
 │   └── app/            # demo / landing page
-└── llms.md             # LLM skill guide
+└── skill.md             # LLM skill guide
 ```
