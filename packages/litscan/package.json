@@ -1,0 +1,21 @@
+{
+  "name": "litscan",
+  "version": "0.1.0",
+  "description": "React Scan-inspired rerender visualizer for Lit web components",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/litscan.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "dev": "vite build --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0"
+  }
+}
