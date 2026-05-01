@@ -6,7 +6,7 @@ type PropertyValues = Map<PropertyKey, unknown>;
 type LitProto = {
   update: (changed: PropertyValues) => void;
   requestUpdate: () => void;
-  __litscan?: boolean;
+  __litScan?: boolean;
 };
 
 export interface TagStats {
@@ -58,7 +58,7 @@ function getRoot(): HTMLDivElement {
     document.head.appendChild(style);
 
     overlayRoot = document.createElement('div');
-    overlayRoot.id = 'litscan-root';
+    overlayRoot.id = 'lit-scan-root';
     Object.assign(overlayRoot.style, {
       position: 'fixed',
       inset: '0',
@@ -113,8 +113,8 @@ function isLitProto(proto: object): proto is LitProto {
 }
 
 function patchProto(proto: LitProto): void {
-  if (proto.__litscan) return;
-  proto.__litscan = true;
+  if (proto.__litScan) return;
+  proto.__litScan = true;
 
   const orig = proto.update;
 

@@ -6,8 +6,8 @@ export default defineConfig({
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       formats: ['es', 'iife'],
-      name: 'litscan',
-      fileName: (format) => format === 'iife' ? 'litscan.iife.js' : 'litscan.js',
+      name: 'litScan',
+      fileName: (format) => format === 'iife' ? 'lit-scan.iife.js' : 'lit-scan.js',
     },
     outDir: 'dist',
     emptyOutDir: true,

@@ -14,9 +14,9 @@ export function report(): string {
 export { destroy };
 
 declare global {
-  interface Window { litscan: { report: () => string; destroy: () => void } }
+  interface Window { litScan: { report: () => string; destroy: () => void } }
 }
 
-// For ESM consumers. The IIFE build gets window.litscan automatically
-// via Vite's export wrapper (it assigns exports to window.litscan).
-window.litscan = { report, destroy };
+// For ESM consumers. The IIFE build gets window.litScan automatically
+// via Vite's export wrapper (it assigns exports to window.litScan).
+window.litScan = { report, destroy };

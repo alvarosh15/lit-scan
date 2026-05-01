@@ -7,22 +7,22 @@ Tracks component rerenders in real time — flashes a colored overlay on each re
 ## Install
 
 ```bash
-npm install litscan
+npm install lit-scan
 ```
 
 ## Usage
 
-Import `litscan` as the **first import** in your app's entry point:
+Import `lit-scan` as the **first import** in your app's entry point:
 
 ```ts
-import 'litscan';
+import 'lit-scan';
 import './my-element.js';
 // rest of your app
 ```
 
 That's it. No config, no wrappers, no changes to your components.
 
-> **Why first?** LitScan hooks into `customElements.define`, which is called synchronously when element modules are evaluated. If other element modules load before `litscan`, those elements won't be tracked.
+> **Why first?** LitScan hooks into `customElements.define`, which is called synchronously when element modules are evaluated. If other element modules load before `lit-scan`, those elements won't be tracked.
 
 ## Features
 
@@ -39,7 +39,7 @@ That's it. No config, no wrappers, no changes to your components.
 Click **"Copy report"** in the panel footer, or call from the browser console:
 
 ```js
-window.litscan.report()
+window.litScan.report()
 ```
 
 Example output:
@@ -65,7 +65,7 @@ Components with more than 50 renders are flagged as anomalies.
 Add LitScan before your app bundle — no import needed in your code:
 
 ```html
-<script src="https://unpkg.com/litscan/dist/litscan.iife.js"></script>
+<script src="https://unpkg.com/lit-scan/dist/lit-scan.iife.js"></script>
 <script type="module" src="/src/main.js"></script>
 ```
 
@@ -73,7 +73,7 @@ Add LitScan before your app bundle — no import needed in your code:
 
 | | |
 |---|---|
-| `window.litscan.report()` | Generate and log the plain-text report, returns it as a string |
+| `window.litScan.report()` | Generate and log the plain-text report, returns it as a string |
 | `destroy()` (named export) | Remove the overlay and panel from the DOM |
 
 ## LLM Agents
@@ -90,7 +90,7 @@ litscan/
 │   │       ├── scanner.ts   # customElements.define hook + render tracking
 │   │       ├── panel.ts     # floating UI panel
 │   │       ├── report.ts    # plain-text report generator
-│   │       └── index.ts     # entry point, window.litscan global
+│   │       └── index.ts     # entry point, window.litScan global
 │   └── app/            # demo / landing page
 └── skill.md             # LLM skill guide
 ```

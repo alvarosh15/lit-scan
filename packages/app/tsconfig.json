@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "paths": {
-      "litscan": ["../litscan/src/index.ts"]
+      "lit-scan": ["../litscan/src/index.ts"]
     }
   },
   "include": ["src"]

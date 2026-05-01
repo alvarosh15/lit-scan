@@ -1,11 +1,11 @@
 {
-  "name": "litscan",
+  "name": "lit-scan",
   "version": "0.1.0",
   "description": "React Scan-inspired rerender visualizer for Lit web components",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/litscan.js",
+      "import": "./dist/lit-scan.js",
       "types": "./dist/index.d.ts"
     }
   },
