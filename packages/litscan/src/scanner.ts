@@ -74,7 +74,7 @@ function getRoot(): HTMLDivElement {
   return overlayRoot;
 }
 
-function flash(rect: DOMRect, count: number): void {
+function flash(rect: DOMRect, count: number, tag: string): void {
   const color = colorFor(count);
   const dur   = 600;
   const root  = getRoot();
@@ -100,7 +100,7 @@ function flash(rect: DOMRect, count: number): void {
     background:${color};color:#000;
     animation:ls-out ${dur}ms ease-out forwards;
   `;
-  badge.textContent = `×${count}`;
+  badge.textContent = `${tag} ×${count}`;
   root.appendChild(badge);
 
   setTimeout(() => { box.remove(); badge.remove(); }, dur + 50);
@@ -143,7 +143,7 @@ function patchProto(proto: LitProto): void {
     const el = this;
     requestAnimationFrame(() => {
       const rect = el.getBoundingClientRect();
-      if (rect.width > 0 || rect.height > 0) flash(rect, count);
+      if (rect.width > 0 || rect.height > 0) flash(rect, count, tag);
     });
   };
 }
