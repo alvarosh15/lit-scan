@@ -15,28 +15,28 @@ export class MyElement extends LitElement {
       display: block;
       background: #111;
       border: 1px solid #1e1e1e;
-      border-radius: 12px;
-      padding: 24px;
-      font-family: system-ui, -apple-system, sans-serif;
+      border-radius: 8px;
+      padding: 18px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     h1 {
-      margin: 0 0 16px;
-      font-size: 1.1rem;
-      font-weight: 500;
+      margin: 0 0 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: #aaa;
     }
 
     .count-display {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 700;
       text-align: center;
-      padding: 24px;
+      padding: 18px;
       border-radius: 8px;
       background: #0a0a0a;
       color: #eee;
-      margin: 0 0 16px;
-      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      letter-spacing: 0;
       font-variant-numeric: tabular-nums;
     }
 
@@ -53,17 +53,12 @@ export class MyElement extends LitElement {
       background: #1a1a1a;
       color: #bbb;
       cursor: pointer;
-      font-size: 13px;
+      font: inherit;
+      font-size: 12px;
       transition: background 0.1s, color 0.1s;
     }
     button:hover { background: #222; color: #eee; }
 
-    .hint {
-      margin-top: 16px;
-      font-size: 12px;
-      color: #444;
-      line-height: 1.6;
-    }
   `;
 
   /**
@@ -89,11 +84,6 @@ export class MyElement extends LitElement {
         <button part="button" @click=${this._toggleName}>Toggle name</button>
         <button part="button" @click=${this._rapidFire}>Rapid ×10</button>
       </div>
-
-      <p class="hint">
-        Each button click triggers a rerender. "Rapid ×10" fires 10 updates
-        quickly to push the counter into the amber → red range.
-      </p>
 
       <slot></slot>
     `;
