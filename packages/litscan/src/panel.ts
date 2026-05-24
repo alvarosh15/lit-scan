@@ -1,4 +1,4 @@
-import { getStats, isPaused, setPaused, onRender } from './scanner.js';
+import { clearRenderListener, getStats, isPaused, setPaused, onRender } from './scanner.js';
 import { generateReport } from './report.js';
 
 const COLORS = { low: '#00c896', mid: '#f59e0b', high: '#ef4444' };
@@ -22,32 +22,40 @@ let statusDot: HTMLElement | null      = null;
 let pauseBtn: HTMLButtonElement | null = null;
 let fpsEl: HTMLElement | null          = null;
 let rafId: number | null               = null;
+let fpsRafId: number | null            = null;
+let panelEl: HTMLElement | null        = null;
+let panelStyleEl: HTMLStyleElement | null = null;
 
 // ── fps loop ──────────────────────────────────────────────────────────────
 
 function startFpsLoop(): void {
+  if (fpsRafId !== null) return;
+
   let frames   = 0;
   let lastTime = performance.now();
 
   function tick(): void {
+    if (!fpsEl) {
+      fpsRafId = null;
+      return;
+    }
+
     frames++;
     const now     = performance.now();
     const elapsed = now - lastTime;
 
     if (elapsed >= 1000) {
       const fps = Math.round(frames * 1000 / elapsed);
-      if (fpsEl) {
-        fpsEl.textContent  = `${fps} fps`;
-        fpsEl.style.color  = fpsColor(fps);
-      }
+      fpsEl.textContent = `${fps} fps`;
+      fpsEl.style.color = fpsColor(fps);
       frames   = 0;
       lastTime = now;
     }
 
-    requestAnimationFrame(tick);
+    fpsRafId = requestAnimationFrame(tick);
   }
 
-  requestAnimationFrame(tick);
+  fpsRafId = requestAnimationFrame(tick);
 }
 
 // ── list refresh ──────────────────────────────────────────────────────────
@@ -188,8 +196,8 @@ function makeDraggable(handle: HTMLElement, target: HTMLElement): void {
 export function initPanel(): void {
   if (listEl) return;
 
-  const style = document.createElement('style');
-  style.textContent = `
+  panelStyleEl = document.createElement('style');
+  panelStyleEl.textContent = `
     #ls-panel {
       position: fixed;
       bottom: 16px;
@@ -236,10 +244,11 @@ export function initPanel(): void {
     }
     #ls-report-btn:hover { background: #2a2a2a; color: #ddd; }
   `;
-  document.head.appendChild(style);
+  document.head.appendChild(panelStyleEl);
 
   const panel = document.createElement('div');
   panel.id = 'ls-panel';
+  panelEl = panel;
 
   // ── header ────────────────────────────────────────────────────────────────
   const header = document.createElement('div');
@@ -310,4 +319,28 @@ export function initPanel(): void {
   startFpsLoop();
   onRender(scheduleRefresh);
   refresh();
+}
+
+export function destroyPanel(): void {
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  if (fpsRafId !== null) {
+    cancelAnimationFrame(fpsRafId);
+    fpsRafId = null;
+  }
+
+  clearRenderListener();
+  document.getElementById('ls-report-overlay')?.remove();
+  panelEl?.remove();
+  panelStyleEl?.remove();
+
+  listEl = null;
+  statusDot = null;
+  pauseBtn = null;
+  fpsEl = null;
+  panelEl = null;
+  panelStyleEl = null;
 }

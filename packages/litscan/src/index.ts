@@ -1,5 +1,5 @@
-import { init, destroy } from './scanner.js';
-import { initPanel } from './panel.js';
+import { init, destroy as destroyScanner } from './scanner.js';
+import { destroyPanel, initPanel } from './panel.js';
 import { generateReport } from './report.js';
 
 init();
@@ -11,7 +11,10 @@ export function report(): string {
   return text;
 }
 
-export { destroy };
+export function destroy(): void {
+  destroyPanel();
+  destroyScanner();
+}
 
 declare global {
   interface Window { litScan: { report: () => string; destroy: () => void } }

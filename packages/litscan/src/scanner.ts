@@ -36,10 +36,12 @@ function toRgba(hex: string, a: number): string {
 const counts = new WeakMap<Element, number>(); // per-instance render count
 const stats  = new Map<string, TagStats>();    // per-tag aggregate (iterable, for panel)
 let overlayRoot: HTMLDivElement | null = null;
+let overlayStyle: HTMLStyleElement | null = null;
 let active         = false;
 let paused         = false;
 let sessionStart   = 0;
 let renderListener: (() => void) | null = null;
+let originalDefine: CustomElementRegistry['define'] | null = null;
 
 // ── public API ────────────────────────────────────────────────────────────
 
@@ -48,14 +50,15 @@ export function getSessionStart(): number { return sessionStart; }
 export function setPaused(value: boolean): void { paused = value; }
 export function isPaused(): boolean { return paused; }
 export function onRender(cb: () => void): void { renderListener = cb; }
+export function clearRenderListener(): void { renderListener = null; }
 
 // ── overlay ───────────────────────────────────────────────────────────────
 
 function getRoot(): HTMLDivElement {
   if (!overlayRoot) {
-    const style = document.createElement('style');
-    style.textContent = `@keyframes ls-out{from{opacity:1}to{opacity:0}}`;
-    document.head.appendChild(style);
+    overlayStyle = document.createElement('style');
+    overlayStyle.textContent = `@keyframes ls-out{from{opacity:1}to{opacity:0}}`;
+    document.head.appendChild(overlayStyle);
 
     overlayRoot = document.createElement('div');
     overlayRoot.id = 'lit-scan-root';
@@ -121,6 +124,7 @@ function patchProto(proto: LitProto): void {
   proto.update = function (this: Element, changed: PropertyValues) {
     orig.call(this, changed);
 
+    if (!active) return;
     if (paused) return;
 
     const prevCount = counts.get(this) ?? 0;
@@ -151,7 +155,8 @@ export function init(): void {
   active = true;
   sessionStart = Date.now();
 
-  const origDefine = customElements.define.bind(customElements);
+  originalDefine ??= customElements.define;
+  const origDefine = originalDefine.bind(customElements);
 
   customElements.define = function (
     name: string,
@@ -167,6 +172,16 @@ export function init(): void {
 
 export function destroy(): void {
   active = false;
+  paused = false;
+  renderListener = null;
+
+  if (originalDefine) {
+    customElements.define = originalDefine;
+    originalDefine = null;
+  }
+
   overlayRoot?.remove();
+  overlayStyle?.remove();
   overlayRoot = null;
+  overlayStyle = null;
 }
