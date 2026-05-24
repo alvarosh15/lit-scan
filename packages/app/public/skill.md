@@ -5,21 +5,21 @@ LitScan is a developer tool for Lit web components, inspired by React Scan. It t
 ## Installation
 
 ```bash
-npm install litscan
+npm install lit-scan
 ```
 
 ## Setup
 
-Import `litscan` as the **first import** in your app's entry point. It auto-initializes on import — no function call needed.
+Import `lit-scan` as the **first import** in your app's entry point. It auto-initializes on import — no function call needed.
 
 ```ts
 // src/main.ts (or index.ts)
-import 'litscan';
+import 'lit-scan';
 import './my-element.js';
 // rest of your app
 ```
 
-> **Why first?** LitScan intercepts `customElements.define`, which is called synchronously when element modules are evaluated. If other element modules are imported before `litscan`, those elements won't be tracked.
+> **Why first?** LitScan intercepts `customElements.define`, which is called synchronously when element modules are evaluated. If other element modules are imported before `lit-scan`, those elements won't be tracked.
 
 ## What You See
 
@@ -46,7 +46,7 @@ Click **"Copy report"** in the panel footer. This:
 
 ### Option 2 — Browser console / JS execution
 ```js
-window.litscan.report()
+window.litScan.report()
 ```
 Returns the report as a string and logs it to the console. This is the most reliable method for LLM agents using browser automation (Playwright, computer use, etc.).
 
@@ -83,7 +83,7 @@ Click **▶** to resume.
 Add LitScan before your app bundle in `index.html`. The script must appear before the app's `<script type="module">`.
 
 ```html
-<script src="https://unpkg.com/litscan/dist/litscan.iife.js"></script>
+<script src="https://unpkg.com/lit-scan/dist/lit-scan.iife.js"></script>
 <script type="module" src="/src/main.js"></script>
 ```
 
@@ -91,7 +91,7 @@ When loaded this way, no import or function call is needed in the app code.
 
 ## API Reference
 
-### `window.litscan`
+### `window.litScan`
 
 | Method     | Description |
 |------------|-------------|
@@ -116,6 +116,6 @@ To analyze rerender behavior in an app:
 1. Ensure LitScan is installed and imported as the first import in the entry point (or added as a script tag)
 2. Load the page in a browser
 3. Interact with the UI — click buttons, navigate, trigger the behavior under test
-4. Run `window.litscan.report()` via JS execution, or click "Copy report" in the panel
+4. Run `window.litScan.report()` via JS execution, or click "Copy report" in the panel
 5. Read the output from the console or the modal overlay
 6. Components listed under **ANOMALIES** (>50 renders) are worth investigating — they may indicate missing memoization, reactive property loops, or a parent causing unnecessary child rerenders
