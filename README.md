@@ -1,8 +1,8 @@
 # LitScan
 
-React Scan-inspired rerender visualizer for [Lit](https://lit.dev) web components.
+Rerender visualizer for [Lit](https://lit.dev) web components, inspired by [React Scan](https://react-scan.com/).
 
-Tracks component rerenders in real time — flashes a colored overlay on each rerender and shows a floating panel with cumulative counts and a live FPS meter.
+Tracks component rerenders in real time — flashes a colored overlay with the component tag and render count, and shows a floating panel with cumulative counts and a live FPS meter.
 
 ## Install
 
@@ -26,7 +26,7 @@ That's it. No config, no wrappers, no changes to your components.
 
 ## Features
 
-- **Rerender overlay** — colored flash on each component rerender
+- **Rerender overlay** — colored flash with component tag and render count
 - **Color coding** — green (1–2) → amber (3–10) → red (11+) by render count
 - **Floating panel** — live leaderboard of components sorted by render count, draggable
 - **FPS counter** — live frames-per-second in the panel header
@@ -66,15 +66,16 @@ Add LitScan before your app bundle — no import needed in your code:
 
 ```html
 <script src="https://unpkg.com/lit-scan/dist/lit-scan.iife.js"></script>
-<script type="module" src="/src/main.js"></script>
 ```
+
+Load this before your app's script so LitScan can hook into `customElements.define` before components are registered.
 
 ## API
 
 | | |
 |---|---|
 | `window.litScan.report()` | Generate and log the plain-text report, returns it as a string |
-| `destroy()` (named export) | Remove the overlay and panel from the DOM |
+| `window.litScan.destroy()` | Remove the overlay and panel, restore `customElements.define`, and stop tracking |
 
 ## LLM Agents
 
